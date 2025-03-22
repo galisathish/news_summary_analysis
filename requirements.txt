@@ -1,7 +1,8 @@
-BeautifulSoup
-requests
 TextBlob
-gTTS
-streamlit
-FastAPI
+fastapi
+uvicorn
 pydantic
+streamlit
+requests
+bs4
+gtts
