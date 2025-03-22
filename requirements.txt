@@ -1,0 +1,7 @@
+BeautifulSoup
+requests
+TextBlob
+gTTS
+streamlit
+FastAPI
+pydantic
