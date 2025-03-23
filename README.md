@@ -1,136 +1,91 @@
-Here's a README.md for your GitHub repository, including sections and placeholders for images.
+# News Sentiment Analysis
 
-📢 News Sentiment Analysis
+## Project Setup
 
-This project is a news sentiment analysis tool that scrapes Google News for articles related to a company, analyzes sentiment, extracts key topics, and generates a Hindi text-to-speech summary. It includes a FastAPI backend and a Streamlit frontend.
+### Prerequisites
+Ensure you have Python installed on your system. Then, install the required dependencies using:
 
-🚀 Features
-
-✅ News Scraping – Fetches latest news articles from Google News
-
-✅ Sentiment Analysis – Classifies headlines as Positive, Negative, or Neutral
-
-✅ Topic Extraction – Identifies key discussion topics
-
-✅ Hindi Audio Summary – Converts headlines into speech using gTTS
-
-✅ Interactive UI – Simple and user-friendly Streamlit interface
-
-
-
-🏗️ Project Structure
-
-├── app.py            # Streamlit UI  
-├── api.py            # FastAPI backend  
-├── utils.py          # Helper functions (news scraping, sentiment analysis, TTS)  
-├── requirements.txt  # Dependencies  
-├── README.md         # Documentation  
-└── assets/           # Images for documentation  
-
-
-📥 Installation
-
- Install Dependencies
-
+```sh
 pip install -r requirements.txt
+```
 
-🖥️ Execution
+### Running the Application
 
-1️⃣ Start the Backend (FastAPI Server)
+1. Start the FastAPI backend:
+    ```sh
+    python api.py
+    ```
+    The API will be available at `http://127.0.0.1:8000`
 
-uvicorn api:app --reload
+2. Run the Streamlit frontend:
+    ```sh
+    streamlit run app.py
+    ```
 
-✅ Runs on http://127.0.0.1:8000
+## Model Details
 
-🔗 Check API Docs: http://127.0.0.1:8000/docs
+### Summarization
+- News articles are scraped and summarized using BeautifulSoup.
+- The first paragraph of an article is used as its summary.
 
-2️⃣ Start the Frontend (Streamlit App)
+### Sentiment Analysis
+- Sentiment analysis is performed using TextBlob.
+- The sentiment polarity determines if the article is `Positive`, `Negative`, or `Neutral`.
 
-streamlit run app.py
+### Text-to-Speech (TTS)
+- Google Text-to-Speech (`gTTS`) converts article titles into Hindi speech.
+- The generated audio file (`output.mp3`) is available for playback.
 
-✅ Runs on http://localhost:8501
+## API Development
 
+### Endpoint: `/news_analysis`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "company": "Tesla"
+  }
+  ```
+- **Response Example**:
+  ```json
+  {
+    "Company": "Tesla",
+    "Articles": [
+      {
+        "Title": "Tesla's stock surges",
+        "Summary": "Tesla stock increased by 10% today...",
+        "Sentiment": "Positive",
+        "Topics": ["Stock Market", "Technology"]
+      }
+    ],
+    "Comparative Sentiment Score": {
+      "Sentiment Distribution": {
+        "Positive": 5,
+        "Negative": 3,
+        "Neutral": 2
+      }
+    },
+    "Audio": "output.mp3"
+  }
+  ```
 
+### Testing API with Postman
+- Set the request type to `POST`.
+- Enter `http://127.0.0.1:8000/news_analysis` as the URL.
+- Add the JSON payload in the `Body`.
+- Send the request and check the response.
 
-🎮 How to Use
+## API Usage
 
-1️⃣ Enter a company name in the text box
+### Third-Party APIs Used
+1. **Google News Scraping**: Fetches news articles.
+2. **TextBlob**: Performs sentiment analysis.
+3. **gTTS (Google Text-to-Speech)**: Generates audio summaries.
 
-2️⃣ Click "Get Sentiment Report"
+## Assumptions & Limitations
 
-3️⃣ View extracted news articles, sentiment distribution, and key topics
-
-4️⃣ Listen to the Hindi audio summary of the news
-
-🌐 API Endpoints
-
-Method	Endpoint	Description
-
-POST	/news_analysis	Fetch news and analyze sentiment
-
-
-📩 Request Example:json
-
-{
-  "company": "Tesla"
-}
-📤 Response Example:
-
-{
-
-  "Company": "Tesla",
-  
-  "Articles": [
-  
-    {
-    
-      "Title": "Tesla launches new model...",
-      
-      "Summary": "Tesla has released...",
-      
-      "Sentiment": "Positive",
-      
-      "Topics": ["Electric Cars", "Tesla", "Technology"]
-    
-    }
-  
-  ],
-  
-  "Comparative Sentiment Score": {
-  
-    "Sentiment Distribution": {
-    
-      "Positive": 5,
-      
-      "Negative": 3,
-      
-      "Neutral": 2
-    
-    }
-  
-  },
-  
-  "Audio": "output.mp3"
-
-}
-
-
-🛠️ Technologies Used
-
-Python (FastAPI, Streamlit)
-
-BeautifulSoup (Web Scraping)
-
-TextBlob (Sentiment Analysis)
-
-gTTS (Text-to-Speech)
-
-Requests (API Handling)
-
-
-📌 Notes
-
-⚠️ Google News scraping might be restricted; ensure your IP is not blocked.
-
-⚠️ Sentiment Analysis relies on TextBlob, which may have limitations in accuracy.
+- **Scraping Reliability**: Google News scraping may break if website structure changes.
+- **Sentiment Accuracy**: TextBlob provides basic sentiment analysis but may not be highly accurate.
+- **TTS Language**: Only Hindi TTS is supported.
+- **Limited Articles**: Only the first 10 news articles are processed per request.
 
